@@ -6,7 +6,7 @@ import styles from "./Chart.module.css";
 import { Line, Bar } from "react-chartjs-2";
 
 const Chart = () => {
-  const { dailyData, setDailyData } = useState({});
+  const [ dailyData, setDailyData ] = useState([]);
 
   //we cant use async infront of useeffect so we'll have to create an async function and put it inside
 
@@ -23,7 +23,7 @@ const Chart = () => {
   //ternary operator means if daily data is available we'll show or else show null
   //our api only brings daily data for infected and deaths
   const lineChart = (
-    dailyData.length 
+    dailyData.length
     ? (
             <Line
             data={{
@@ -49,8 +49,7 @@ const Chart = () => {
             />
 
      ) : null
-
-  );
+  )
 
 
 
