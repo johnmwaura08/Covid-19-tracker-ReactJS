@@ -6,7 +6,7 @@ import styles from "./Chart.module.css";
 import { Line, Bar } from "react-chartjs-2";
 
 const Chart = () => {
-  const [ dailyData, setDailyData ] = useState([]);
+  const [ dailyData, setDailyData ] = useState([]); //you have to represent it inn array format because dailydata is an array
 
   //we cant use async infront of useeffect so we'll have to create an async function and put it inside
 
@@ -14,7 +14,7 @@ const Chart = () => {
     const fetchApi = async () => {
       setDailyData(await fetchDailyData());
     };
-    console.log(dailyData);
+    // console.log(dailyData);
 
     fetchApi();
   });
