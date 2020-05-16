@@ -5,7 +5,7 @@ import { fetchDailyData } from "../../api";
 import styles from "./Chart.module.css";
 import { Line, Bar } from "react-chartjs-2";
 
-const Chart = () => {
+const Chart = ({data:{confirmed, recovered, deaths},country}) => {
   const [ dailyData, setDailyData ] = useState([]); //you have to represent it inn array format because dailydata is an array
 
   //we cant use async infront of useeffect so we'll have to create an async function and put it inside
@@ -17,7 +17,7 @@ const Chart = () => {
     // console.log(dailyData);
 
     fetchApi();
-  });
+  },[]);
 
   //responsible for global showing of data
   //ternary operator means if daily data is available we'll show or else show null
@@ -51,11 +51,42 @@ const Chart = () => {
      ) : null
   )
 
+  console.log(confirmed,recovered,deaths)
+
+
+  const barChart=(
+    confirmed
+    ?(
+      <Bar
+          data={{
+              labels: ['Infected', 'Recovered', 'Deaths'],
+              datasets: [{
+                label: 'People',
+                backgroundColor: [
+                  'rgba(0,0,255,0.5)',
+                  'rgba(0,255,0,0.5)',
+                  'rgba(255,0,0,0.5)'
+                ],
+                data:[confirmed.value,recovered.value, deaths.value]
+              }]
+          }}
+      
+            options={{
+              legend:{display:false},
+              title: {display: true, text: `Current state in ${country}`}
+            }}
+      
+      
+      
+      />
+    ): null
+
+  )
 
 
 
   return (<div className={styles.container}>
-    {lineChart}
+    {country? barChart:lineChart}
      </div>);
    
   
