@@ -9,3 +9,47 @@ body{
     justify-content: center;
     flex-direction: column;
 }
+
+/* .imageContainer{
+
+    position: relative;
+    overflow: hidden;
+    width: 500x;
+    height: 100px;
+}
+
+.image{
+
+    /* max-width: 0.3px;
+    margin-top: 5px;    
+    height: 20vh !important; */
+
+    /* margin-left: 50%;
+transform: translateX(-50%); */
+
+
+/* position: absolute;
+top: -9999px;
+bottom: -9999px;
+left: -9999px;
+right: -9999px;
+margin: auto;
+width: 100px;
+height: 100px;
+} */ 
+/* */ 
+
+
+.image{
+    width: 370px;
+    margin-top: 50px;
+}
+
+@media(max-width: 770px){
+.container{
+    margin: 0, 10
+}
+.image{ 
+    width: 100%;
+}
+}
