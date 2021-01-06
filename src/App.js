@@ -1,51 +1,38 @@
-import React, { Component } from "react";
-import { Cards, Chart, CountryPicker } from "./components"; // check index.js file from components folder to see the export
+import React from 'react';
 
-import styles from "./App.module.css";
-import { fetchData } from "./api";
-import covidImage from './images/covidimage.png';
+import { Cards, CountryPicker, Chart } from './components';
+import { fetchData } from './api/';
+import styles from './App.module.css';
 
-class App extends Component {
+import image from './images/image.png';
 
-  state ={ //easier way to declare state
-
+class App extends React.Component {
+  state = {
     data: {},
-    country: ''
-
-
-
+    country: '',
   }
 
   async componentDidMount() {
-    // this is where we fetch Data
+    const data = await fetchData();
 
-    const fetchedData = await fetchData();
-
-    this.setState({ data: fetchedData});
-
-  
+    this.setState({ data });
   }
 
-  handleCountryChange = async (country)=>{
+  handleCountryChange = async (country) => {
+    const data = await fetchData(country);
 
-    //fetch the data
-    const fetchedData = await fetchData(country);
-
-    this.setState({ data: fetchedData, country: country});
-
+    this.setState({ data, country: country });
   }
+
   render() {
+    const { data, country } = this.state;
 
-    const { data,country} = this.state;
     return (
       <div className={styles.container}>
-        <div className={styles.imageContainer}>
-
-            <img classname={styles.image}src={covidImage} alt="coronavirus"/>
-          </div>
-        <Cards data ={data}/>
-        <CountryPicker  handleCountryChange={this.handleCountryChange}/>
-        <Chart data={data} country={country}/>
+        <img className={styles.image} src={image} alt="COVID-19" />
+        <Cards data={data} />
+        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        <Chart data={data} country={country} /> 
       </div>
     );
   }

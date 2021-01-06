@@ -1,67 +1,50 @@
 import axios from 'axios';
 
-const url = "https://covid19.mathdro.id/api";
-
-//async function to retrieve data from our api for cards
+const url = 'https://covid19.mathdro.id/api';
 
 export const fetchData = async (country) => {
-
-
   let changeableUrl = url;
 
-  if(country){
-
-    changeableUrl= `${url}/countries/${country}`
+  if (country) {
+    changeableUrl = `${url}/countries/${country}`;
   }
-  try {
-      //destructuring the response data from the api
-    const  { data:{ confirmed, recovered, deaths, lastUpdate}}= await axios.get(changeableUrl); // we only need confirmed, recovered etc so thats why we destructure
-    return {confirmed, recovered, deaths, lastUpdate}
-  } catch (error) { 
-    console.log(error)
 
+  try {
+    const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(changeableUrl);
+
+    return { confirmed, recovered, deaths, lastUpdate };
+  } catch (error) {
+    return error;
   }
 };
 
+// export const fetchDailyData = async () => {
+//   try {
+//     const { data } = await axios.get(`${url}/daily`);
 
-//api for chart we need daily data for the chart
+//     return data.map(({ confirmed, deaths, reportDate: date }) => ({ confirmed: confirmed.total, deaths: deaths.total, date }));
+//   } catch (error) {
+//     return error;
+//   }
+// };
 
+// Instead of Global, it fetches the daily data for the US
 export const fetchDailyData = async () => {
-
+    try {
+      const { data } = await axios.get('https://api.covidtracking.com/v1/us/daily.json');
   
-
-  try {
-
-
-    const {data} = await axios.get(`${url}/daily`);
-
-    const modifiedData = data.map((dailyData) => ({ // instant return of an object
-
-      confirmed: dailyData.confirmed.total,
-      deaths: dailyData.deaths.total,
-      date: dailyData.reportDate
-
-    }));
-    return modifiedData;
-  }
-  catch(error) {
-    console.log(error)
-
-  }
-}
-
+      return data.map(({ positive, recovered, death, dateChecked: date }) => ({ confirmed: positive, recovered, deaths: death, date }));
+    } catch (error) {
+      return error;
+    }
+  };
 
 export const fetchCountries = async () => {
-
-  try{
-
-    const {data: {countries}} = await axios.get(`${url}/countries`);
+  try {
+    const { data: { countries } } = await axios.get(`${url}/countries`);
 
     return countries.map((country) => country.name);
-  }
-
-
-  catch(error){
-    console.log(error)
+  } catch (error) {
+    return error;
   }
 };
